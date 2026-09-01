@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#681f2a">
+  <title>Галя, Краков ждёт тебя</title>
+  <style>
+    :root {
+      --wine: #92535a;
+      --wine-dark: #634148;
+      --cream: #fffaf1;
+      --paper: #f8edda;
+      --gold: #c99d51;
+      --gold-light: #ead095;
+      --ink: #3b3029;
+      --sage: #829b90;
+      --muted: #756b64;
+      --white: #fffefa;
+      --shadow: 0 18px 50px rgba(55, 25, 18, .13);
+      --radius: 26px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 9% 8%, rgba(213,173,99,.19), transparent 22rem),
+        linear-gradient(180deg, #fbf3e4 0%, #fffdf7 49%, #f3e8d7 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+    button { font: inherit; }
+
+    .topbar {
+      position: absolute;
+      z-index: 5;
+      top: 0;
+      left: 50%;
+      width: min(1180px, calc(100% - 36px));
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      color: var(--ink);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(146,83,90,.22);
+      border-radius: 50%;
+      background: rgba(255,255,255,.64);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      display: flex;
+      gap: 7px;
+    }
+
+    .nav a {
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: rgba(59,48,41,.72);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav a:hover { background: rgba(146,83,90,.09); color: var(--wine); }
+
+    .hero {
+      position: relative;
+      min-height: 810px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 75% 20%, rgba(255,255,255,.82), transparent 21rem),
+        linear-gradient(145deg, #fffaf1 0%, #f4e0d8 50%, #ead7bd 100%);
+      color: var(--ink);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(1px);
+      background: rgba(255,255,255,.58);
+      box-shadow:
+        80px 30px rgba(255,255,255,.54), 180px 92px rgba(255,255,255,.38),
+        270px 18px rgba(255,255,255,.52), 360px 110px rgba(255,255,255,.34),
+        460px 52px rgba(255,255,255,.46), 550px 128px rgba(255,255,255,.36),
+        650px 24px rgba(255,255,255,.49), 740px 96px rgba(255,255,255,.34),
+        860px 45px rgba(255,255,255,.44), 960px 122px rgba(255,255,255,.38);
+      width: 4px;
+      height: 4px;
+      animation: snow 12s linear infinite;
+    }
+
+    .hero::before { top: 90px; left: 4%; }
+    .hero::after { top: 280px; left: 15%; opacity: .64; animation-duration: 18s; }
+
+    @keyframes snow {
+      to { transform: translateY(190px) translateX(-28px); }
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 165px 0 270px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 12px;
+      border: 1px solid rgba(146,83,90,.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.58);
+      color: var(--wine);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      max-width: 790px;
+      margin: 28px 0 18px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(54px, 8vw, 104px);
+      font-weight: 500;
+      line-height: .95;
+      letter-spacing: -.045em;
+      text-wrap: balance;
+    }
+
+    .hero h1 em { color: var(--wine); font-style: italic; }
+
+    .lead {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 23px);
+      font-weight: 420;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 50px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: var(--wine);
+      color: white;
+      text-decoration: none;
+      font-weight: 850;
+      box-shadow: 0 12px 30px rgba(114,63,67,.18);
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .button:hover { transform: translateY(-2px); background: var(--wine-dark); }
+    .button.secondary {
+      border-color: rgba(146,83,90,.22);
+      background: rgba(255,255,255,.58);
+      color: var(--wine);
+      box-shadow: none;
+      backdrop-filter: blur(10px);
+    }
+
+    .skyline {
+      position: absolute;
+      z-index: 1;
+      right: 0;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 330px;
+      opacity: .94;
+    }
+
+    .main {
+      position: relative;
+      z-index: 4;
+      width: min(1120px, calc(100% - 36px));
+      margin: -116px auto 0;
+      padding-bottom: 90px;
+    }
+
+    .trip-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      overflow: hidden;
+      border: 1px solid rgba(104,31,42,.09);
+      border-radius: 32px;
+      background: rgba(255,253,248,.96);
+      box-shadow: var(--shadow);
+    }
+
+    .trip-copy { padding: 42px 44px; }
+    .trip-copy h2 {
+      margin: 0 0 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(31px, 4vw, 45px);
+      line-height: 1.08;
+      font-weight: 600;
+    }
+    .trip-copy p { max-width: 610px; color: var(--muted); font-size: 17px; }
+
+    .signature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 28px;
+      color: var(--wine);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 19px;
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    .signature::before { content: ""; width: 34px; height: 1px; background: var(--gold); }
+
+    .section { padding: 92px 0 0; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .section-kicker {
+      color: var(--wine);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .section h2 {
+      margin: 7px 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(36px, 5vw, 58px);
+      line-height: 1.04;
+      font-weight: 550;
+      letter-spacing: -.025em;
+    }
+    .section-note { max-width: 410px; margin: 0; color: var(--muted); }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .fact {
+      min-height: 160px;
+      padding: 23px;
+      border: 1px solid rgba(69,47,36,.09);
+      border-radius: var(--radius);
+      background: rgba(255,253,248,.7);
+      box-shadow: 0 10px 30px rgba(64,35,24,.05);
+    }
+    .fact-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 24px;
+      border-radius: 14px;
+      background: #f2e3c8;
+      color: var(--wine);
+      font-size: 20px;
+    }
+    .fact strong { display: block; margin-bottom: 4px; font-size: 17px; }
+    .fact span { color: var(--muted); font-size: 14px; }
+
+    .city-gallery {
+      display: grid;
+      grid-template-columns: 1.45fr .9fr;
+      grid-template-rows: 245px 245px;
+      gap: 14px;
+    }
+    .city-shot {
+      position: relative;
+      min-height: 0;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid rgba(69,47,36,.09);
+      border-radius: 27px;
+      background: #e9ded1;
+      box-shadow: 0 13px 34px rgba(60,34,25,.08);
+    }
+    .city-shot:first-child { grid-row: 1 / 3; }
+    .city-shot img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform .55s ease;
+    }
+    .city-shot:first-child img { object-position: 57% center; }
+    .city-shot:nth-child(3) img { object-position: center 44%; }
+    .city-shot:hover img { transform: scale(1.025); }
+    .city-shot::after {
+      content: "";
+      position: absolute;
+      inset: 43% 0 0;
+      background: linear-gradient(180deg, transparent, rgba(28,20,17,.76));
+      pointer-events: none;
+    }
+    .city-shot figcaption {
+      position: absolute;
+      z-index: 2;
+      right: 22px;
+      bottom: 19px;
+      left: 22px;
+      color: #fffdf8;
+      text-shadow: 0 2px 15px rgba(0,0,0,.35);
+    }
+    .city-shot figcaption span {
+      display: block;
+      margin-bottom: 2px;
+      color: rgba(255,253,248,.76);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .city-shot figcaption strong {
+      font-family: Georgia, serif;
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.05;
+      font-weight: 500;
+    }
+    .photo-credits {
+      margin: 12px 2px 0;
+      color: rgba(59,48,41,.5);
+      font-size: 11px;
+    }
+    .photo-credits a { text-underline-offset: 2px; }
+
+    .hotel {
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      overflow: hidden;
+      border-radius: 32px;
+      border: 1px solid rgba(69,47,36,.1);
+      background: var(--white);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+    }
+
+    .hotel-visual {
+      position: relative;
+      min-height: 510px;
+      padding: 38px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, transparent 20%, rgba(24,15,12,.65) 100%),
+        linear-gradient(135deg, #d6c9bb, #8c6d5f);
+    }
+
+    .room-scene {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 0 55%, rgba(62,34,28,.42) 55% 57%, transparent 57%),
+        linear-gradient(180deg, transparent 0 66%, #5b3d35 66% 68%, #ba9475 68% 100%);
+    }
+    .room-scene::before {
+      content: "";
+      position: absolute;
+      left: 11%;
+      bottom: 21%;
+      width: 72%;
+      height: 31%;
+      border-radius: 14px 14px 4px 4px;
+      background:
+        linear-gradient(90deg, transparent 0 11%, rgba(255,255,255,.95) 11% 34%, transparent 34% 60%, rgba(255,255,255,.94) 60% 83%, transparent 83%),
+        linear-gradient(180deg, #aa7155 0 26%, #f1e8dc 26% 100%);
+      box-shadow: 0 20px 35px rgba(38,22,18,.28);
+    }
+    .room-scene::after {
+      content: "✦";
+      position: absolute;
+      top: 17%;
+      right: 15%;
+      color: rgba(255,255,255,.72);
+      font-size: 50px;
+      text-shadow: -220px 85px rgba(255,255,255,.55);
+    }
+
+    .hotel-badge {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.84);
+      color: var(--wine-dark);
+      font-size: 13px;
+      font-weight: 900;
+      backdrop-filter: blur(10px);
+    }
+
+    .hotel-caption {
+      position: absolute;
+      z-index: 2;
+      right: 36px;
+      bottom: 34px;
+      left: 36px;
+    }
+    .hotel-caption small { color: rgba(255,255,255,.74); }
+    .hotel-caption strong { display: block; font-family: Georgia, serif; font-size: 29px; }
+
+    .hotel-copy { padding: 50px; }
+    .hotel-copy .section-kicker { color: var(--wine); }
+    .hotel-copy h3 {
+      margin: 8px 0 13px;
+      font-family: Georgia, serif;
+      font-size: clamp(35px, 4vw, 52px);
+      line-height: 1;
+      font-weight: 500;
+    }
+    .hotel-copy > p { color: var(--muted); }
+    .hotel-list { display: grid; gap: 13px; margin: 28px 0 30px; }
+    .hotel-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding-bottom: 13px;
+      border-bottom: 1px solid rgba(69,47,36,.1);
+      color: var(--muted);
+    }
+    .hotel-item b { color: var(--ink); }
+    .hotel-item i { width: 25px; color: var(--wine); font-style: normal; text-align: center; }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border: 1px solid rgba(146,83,90,.22);
+      border-radius: 999px;
+      color: var(--wine);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--wine); }
+
+    .flight-board {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      overflow: hidden;
+      border: 1px solid rgba(69,47,36,.1);
+      border-radius: 28px;
+      background: var(--white);
+      box-shadow: 0 12px 34px rgba(60,34,25,.07);
+    }
+    .flight-divider { background: rgba(69,47,36,.1); }
+    .flight-leg { padding: 28px 31px; }
+    .flight-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+    .flight-top strong { color: var(--wine); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
+    .flight-top span { color: var(--muted); font-size: 13px; }
+    .flight-route { display: grid; grid-template-columns: 1fr 100px 1fr; align-items: center; gap: 14px; }
+    .flight-place:last-child { text-align: right; }
+    .flight-place b { display: block; font-family: Georgia, serif; font-size: 36px; line-height: 1; }
+    .flight-place small { color: var(--muted); }
+    .flight-path { position: relative; height: 1px; background: rgba(146,83,90,.26); }
+    .flight-path::after { content: "✈"; position: absolute; top: 50%; left: 50%; padding: 0 8px; transform: translate(-50%,-53%); background: var(--white); color: var(--wine); }
+    .flight-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 23px; }
+    .flight-meta span { padding: 7px 10px; border-radius: 999px; background: #f5ead8; color: var(--wine); font-size: 12px; font-weight: 750; }
+
+    .itinerary { display: grid; gap: 18px; }
+    .plan-day {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      overflow: hidden;
+      border: 1px solid rgba(69,47,36,.1);
+      border-radius: 27px;
+      background: var(--white);
+      box-shadow: 0 12px 34px rgba(60,34,25,.055);
+    }
+    .plan-day-head { padding: 30px 27px; background: linear-gradient(145deg, #faece8, #f5e4d8); }
+    .plan-day:nth-child(even) .plan-day-head { background: linear-gradient(145deg, #eaf2ed, #dce9e2); }
+    .plan-day-head strong { display: block; color: var(--wine); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+    .plan-day-head b { display: block; margin-top: 8px; font-family: Georgia, serif; font-size: 34px; line-height: 1; }
+    .plan-day-head span { display: block; margin-top: 12px; color: var(--muted); font-size: 14px; }
+    .schedule { padding: 20px 28px; }
+    .schedule-row { display: grid; grid-template-columns: 64px 14px 1fr; gap: 13px; align-items: start; padding: 10px 0; }
+    .schedule-row + .schedule-row { border-top: 1px solid rgba(69,47,36,.075); }
+    .schedule-row time { color: var(--wine); font-size: 13px; font-weight: 850; font-variant-numeric: tabular-nums; }
+    .schedule-dot { width: 9px; height: 9px; margin-top: 6px; border: 2px solid var(--wine); border-radius: 50%; background: var(--white); }
+    .schedule-row b { display: block; font-size: 14px; }
+    .schedule-row p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+    .plan-note { margin: 18px 0 0; padding: 15px 18px; border-radius: 18px; background: #f5ead8; color: var(--muted); font-size: 13px; }
+
+    .coming {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .coming-card {
+      min-height: 190px;
+      padding: 28px;
+      border-radius: 26px;
+      border: 1px solid rgba(69,47,36,.08);
+      color: var(--ink);
+      background: linear-gradient(145deg, #edf4f0, #dce9e2);
+    }
+    .coming-card:nth-child(2) { background: linear-gradient(145deg, #faeceb, #f1d8d6); }
+    .coming-card h3 { margin: 0 0 8px; font-family: Georgia, serif; font-size: 29px; }
+    .coming-card p { max-width: 440px; margin: 0; color: var(--muted); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .chip { padding: 7px 10px; border: 1px solid rgba(146,83,90,.16); border-radius: 999px; color: var(--wine); font-size: 12px; font-weight: 700; }
+
+    .footer {
+      margin-top: 90px;
+      padding: 70px 0 32px;
+      border-radius: 36px 36px 0 0;
+      border: 1px solid rgba(146,83,90,.1);
+      background: linear-gradient(145deg, #f8e7e3, #fff8ed);
+      color: var(--ink);
+      text-align: center;
+    }
+    .footer .heart { color: var(--wine); font-size: 28px; }
+    .footer h2 { max-width: 680px; margin: 10px auto 14px; font-family: Georgia, serif; font-size: clamp(34px, 5vw, 55px); line-height: 1.05; font-weight: 500; }
+    .footer p { color: var(--muted); }
+    .fineprint { margin-top: 58px; color: rgba(59,48,41,.42); font-size: 12px; }
+
+    @media (max-width: 900px) {
+      .nav { display: none; }
+      .hero { min-height: 760px; }
+      .hero-inner { padding-top: 150px; }
+      .trip-card, .hotel { grid-template-columns: 1fr; }
+      .facts { grid-template-columns: repeat(2, 1fr); }
+      .city-gallery { grid-template-columns: 1.1fr .9fr; grid-template-rows: 210px 210px; }
+      .flight-board { grid-template-columns: 1fr; }
+      .flight-divider { width: 100%; height: 1px; }
+      .plan-day { grid-template-columns: 1fr; }
+      .section-head { align-items: start; flex-direction: column; }
+    }
+
+    @media (max-width: 580px) {
+      .topbar { padding-top: 18px; }
+      .brand span:last-child { font-size: 14px; }
+      .hero { min-height: 715px; }
+      .hero-inner { padding: 135px 0 220px; }
+      .hero h1 { font-size: 58px; }
+      .lead { font-size: 18px; }
+      .hero-actions .button { width: 100%; }
+      .skyline { height: 250px; }
+      .main { margin-top: -80px; }
+      .trip-copy, .hotel-copy { padding: 30px 24px; }
+      .facts { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .city-gallery { grid-template-columns: 1fr; grid-template-rows: 310px 205px 205px; }
+      .city-shot:first-child { grid-row: auto; }
+      .fact { min-height: 145px; padding: 18px; }
+      .fact-icon { margin-bottom: 16px; }
+      .hotel-visual { min-height: 370px; }
+      .flight-leg { padding: 24px 20px; }
+      .flight-route { grid-template-columns: 1fr 65px 1fr; }
+      .flight-place b { font-size: 29px; }
+      .schedule { padding: 16px 18px; }
+      .schedule-row { grid-template-columns: 54px 12px 1fr; gap: 9px; }
+      .coming { grid-template-columns: 1fr; }
+      .section { padding-top: 72px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="home">
+    <div class="topbar">
+      <div class="brand"><span class="brand-mark">✦</span><span>Краков · личный путеводитель</span></div>
+      <nav class="nav" aria-label="Главная навигация">
+        <a href="#about">Поездка</a>
+        <a href="#gallery">Краков</a>
+        <a href="#hotel">Гостиница</a>
+        <a href="#route">По дням</a>
+      </nav>
+    </div>
+
+    <div class="hero-inner">
+      <div class="eyebrow">Зимняя история · 17–21 декабря 2026</div>
+      <h1>Галя, <em>Краков</em><br>ждёт тебя</h1>
+      <p class="lead">Пять дней рождественских огней, старых улиц, уютных кафе и одного очень личного сюрприза.</p>
+      <div class="hero-actions">
+        <a class="button" href="#about">Открыть путешествие <span>↓</span></a>
+        <a class="button secondary" href="#route">Посмотреть план</a>
+      </div>
+    </div>
+
+    <svg class="skyline" viewBox="0 0 1600 340" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="#9b7b75" d="M0 294h86v-73h63v73h65V181h39v-58h14V84h15v39h16v58h38v113h83v-47h59v47h80v-81h18v-31h16v31h19v81h101v-57h48v57h58V166h20v-43h12V61h17v62h13v43h21v128h67v-70h67v70h48v-37h35v37h81v-93h35v-49h13v-39h14v39h35v142h90v46h116v50H0z"/>
+      <path fill="#f6ead8" opacity=".2" d="M0 312c170-18 260 15 405-8 165-27 300 25 457 3 197-28 356 30 738-5v38H0z"/>
+      <g fill="#f2d38d" opacity=".75">
+        <rect x="112" y="244" width="8" height="11"/><rect x="242" y="201" width="8" height="12"/>
+        <rect x="278" y="201" width="8" height="12"/><rect x="439" y="266" width="8" height="11"/>
+        <rect x="744" y="257" width="8" height="11"/><rect x="951" y="201" width="8" height="12"/>
+        <rect x="995" y="201" width="8" height="12"/><rect x="1231" y="233" width="8" height="12"/>
+        <rect x="1387" y="272" width="8" height="11"/>
+      </g>
+    </svg>
+  </header>
+
+  <main class="main">
+    <section class="trip-card" id="about">
+      <div class="trip-copy">
+        <div class="section-kicker">Небольшое предисловие</div>
+        <h2>Эта поездка — только твоя</h2>
+        <p>Здесь собрано всё, чтобы тебе не пришлось искать нужное среди десятка вкладок: где жить, куда пойти, что попробовать и как не пропустить главное. Осталось только приехать и позволить Кракову сделать свою работу.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="quick-title">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Всё главное</div>
+          <h2 id="quick-title">Поездка в четырёх деталях</h2>
+        </div>
+        <p class="section-note">Здесь собраны даты, направление, формат поездки и зимнее настроение Кракова.</p>
+      </div>
+      <div class="facts">
+        <article class="fact"><div class="fact-icon">◷</div><strong>17–21 декабря</strong><span>5 дней · 4 ночи</span></article>
+        <article class="fact"><div class="fact-icon">⌖</div><strong>Краков, Польша</strong><span>Старый город и Казимеж</span></article>
+        <article class="fact"><div class="fact-icon">♙</div><strong>Путешествие соло</strong><span>Свободный ритм Гали</span></article>
+        <article class="fact"><div class="fact-icon">❄</div><strong>Рождественский сезон</strong><span>Ярмарки, огни и глинтвейн</span></article>
+      </div>
+    </section>
+
+    <section class="section" id="gallery" aria-labelledby="gallery-title">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Первое знакомство</div>
+          <h2 id="gallery-title">Краков в нескольких кадрах</h2>
+        </div>
+        <p class="section-note">Старый город в вечерних огнях, снежный Вавель и улочки Казимежа — три настроения этой поездки.</p>
+      </div>
+      <div class="city-gallery">
+        <figure class="city-shot">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Krakov%2C_Stare_Miasto%2C_Rynek_Starego_Miasta_v_noci.JPG/1280px-Krakov%2C_Stare_Miasto%2C_Rynek_Starego_Miasta_v_noci.JPG" alt="Вечерняя Рыночная площадь Кракова с подсвеченным Мариацким костёлом" loading="lazy" decoding="async">
+          <figcaption><span>Старый город</span><strong>Рыночная площадь вечером</strong></figcaption>
+        </figure>
+        <figure class="city-shot">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Wawel_hill_%28view_from_W-winter%29%2C_Old_Town%2C_Krak%C3%B3w%2C_Poland.jpg/1280px-Wawel_hill_%28view_from_W-winter%29%2C_Old_Town%2C_Krak%C3%B3w%2C_Poland.jpg" alt="Зимний вид на Вавельский замок со стороны Вислы" loading="lazy" decoding="async">
+          <figcaption><span>Над Вислой</span><strong>Зимний Вавель</strong></figcaption>
+        </figure>
+        <figure class="city-shot">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/J%C3%B3zefa_street%2C_view_from_E%2C_Kazimierz%2C_Krak%C3%B3w%2C_Poland.jpg/1280px-J%C3%B3zefa_street%2C_view_from_E%2C_Kazimierz%2C_Krak%C3%B3w%2C_Poland.jpg" alt="Мощёная улица Юзефа в историческом районе Казимеж" loading="lazy" decoding="async">
+          <figcaption><span>Казимеж</span><strong>Улица Юзефа</strong></figcaption>
+        </figure>
+      </div>
+      <p class="photo-credits">Фото: <a href="https://commons.wikimedia.org/wiki/File:Krakov,_Stare_Miasto,_Rynek_Starego_Miasta_v_noci.JPG">Aktron</a> · CC BY-SA 3.0; <a href="https://commons.wikimedia.org/wiki/File:Wawel_hill_(view_from_W-winter),_Old_Town,_Krak%C3%B3w,_Poland.jpg">Zygmunt Put</a> · CC BY-SA 4.0; <a href="https://commons.wikimedia.org/wiki/File:J%C3%B3zefa_street,_view_from_E,_Kazimierz,_Krak%C3%B3w,_Poland.jpg">Zygmunt Put</a> · CC BY-SA 4.0.</p>
+    </section>
+
+    <section class="section" aria-labelledby="flight-title">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Выбранная основа маршрута</div>
+          <h2 id="flight-title">Рейсы LOT</h2>
+        </div>
+        <p class="section-note">Ранний прилёт и поздний обратный вылет дают почти пять полноценных дней в Кракове.</p>
+      </div>
+      <div class="flight-board">
+        <article class="flight-leg">
+          <div class="flight-top"><strong>Туда · 17 декабря</strong><span>четверг</span></div>
+          <div class="flight-route">
+            <div class="flight-place"><b>05:40</b><small>Тель-Авив · TLV</small></div>
+            <div class="flight-path"></div>
+            <div class="flight-place"><b>08:35</b><small>Краков · KRK</small></div>
+          </div>
+          <div class="flight-meta"><span>LOT</span><span>прямой рейс</span><span>3 ч 55 мин</span></div>
+        </article>
+        <div class="flight-divider" aria-hidden="true"></div>
+        <article class="flight-leg">
+          <div class="flight-top"><strong>Обратно · 21 декабря</strong><span>понедельник</span></div>
+          <div class="flight-route">
+            <div class="flight-place"><b>23:55</b><small>Краков · KRK</small></div>
+            <div class="flight-path"></div>
+            <div class="flight-place"><b>04:25</b><small>Тель-Авив · 22 декабря</small></div>
+          </div>
+          <div class="flight-meta"><span>LOT</span><span>прямой рейс</span><span>3 ч 30 мин</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="hotel" aria-labelledby="hotel-title">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Выбранная гостиница</div>
+          <h2 id="hotel-title">Дом в Кракове</h2>
+        </div>
+        <p class="section-note">Aparthotel Adler станет твоим домом в Кракове на четыре ночи — рядом с Казимежем, Подгуже и набережной Вислы.</p>
+      </div>
+      <article class="hotel">
+        <div class="hotel-visual">
+          <div class="room-scene"></div>
+          <div class="hotel-badge">★ 8,6 · хороший выбор</div>
+          <div class="hotel-caption"><small>Район Подгуже</small><strong>Уютно рядом с Вислой</strong></div>
+        </div>
+        <div class="hotel-copy">
+          <div class="section-kicker">Aparthotel Adler</div>
+          <h3>Тихая база рядом с Казимежем</h3>
+          <p>Уютная отправная точка для знакомства с южной частью исторического Кракова и прогулок вдоль Вислы.</p>
+          <div class="hotel-list">
+            <div class="hotel-item"><i>⌖</i><span><b>Piwna 7</b>, район Подгуже</span></div>
+            <div class="hotel-item"><i>↗</i><span>Около <b>5 минут</b> до Казимежа</span></div>
+            <div class="hotel-item"><i>≈</i><span>Набережная Вислы — рядом</span></div>
+            <div class="hotel-item"><i>⌂</i><span>Самостоятельное заселение по коду</span></div>
+          </div>
+          <span class="status">Гостиница выбрана</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="section" id="route" aria-labelledby="route-title">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Программа поездки</div>
+          <h2 id="route-title">Пять дней по времени</h2>
+        </div>
+        <p class="section-note">Темп спокойный: обязательные места, перерывы на отдых и никакого туристического марафона с высунутым языком.</p>
+      </div>
+      <div class="itinerary">
+        <article class="plan-day">
+          <header class="plan-day-head"><strong>День 01</strong><b>17 декабря</b><span>Прилёт и первое знакомство</span></header>
+          <div class="schedule">
+            <div class="schedule-row"><time>05:40</time><span class="schedule-dot"></span><div><b>Вылет из Тель-Авива</b><p>Прямой рейс LOT в Краков.</p></div></div>
+            <div class="schedule-row"><time>08:35</time><span class="schedule-dot"></span><div><b>Прилёт в Краков</b><p>Паспортный контроль, получение багажа.</p></div></div>
+            <div class="schedule-row"><time>09:40</time><span class="schedule-dot"></span><div><b>Поезд в центр</b><p>Около 20 минут до Kraków Główny.</p></div></div>
+            <div class="schedule-row"><time>10:15</time><span class="schedule-dot"></span><div><b>Багаж и поздний завтрак</b><p>Оставить вещи у вокзала, если номер ещё не готов.</p></div></div>
+            <div class="schedule-row"><time>11:30</time><span class="schedule-dot"></span><div><b>Первый маршрут по Старому городу</b><p>Барбакан → Флорианские ворота → улица Флорианская → Главная площадь.</p></div></div>
+            <div class="schedule-row"><time>14:00</time><span class="schedule-dot"></span><div><b>Обед в центре</b><p>Тёплый перерыв без спешки после ночного подъёма.</p></div></div>
+            <div class="schedule-row"><time>15:30</time><span class="schedule-dot"></span><div><b>Заселение в Adler</b><p>Забрать вещи и пройти самостоятельное заселение по коду.</p></div></div>
+            <div class="schedule-row"><time>17:00</time><span class="schedule-dot"></span><div><b>Отдых в гостинице</b><p>Полтора часа тишины — они в первый день дороже любого музея.</p></div></div>
+            <div class="schedule-row"><time>19:00</time><span class="schedule-dot"></span><div><b>Вечерний Казимеж</b><p>Неспешная прогулка, ужин и возвращение в гостиницу около 21:30.</p></div></div>
+          </div>
+        </article>
+
+        <article class="plan-day">
+          <header class="plan-day-head"><strong>День 02</strong><b>18 декабря</b><span>Вавель и рождественский центр</span></header>
+          <div class="schedule">
+            <div class="schedule-row"><time>08:00</time><span class="schedule-dot"></span><div><b>Завтрак</b><p>Спокойное начало дня.</p></div></div>
+            <div class="schedule-row"><time>09:00</time><span class="schedule-dot"></span><div><b>Дорога к Вавелю</b><p>Прогулка вдоль Вислы или короткая поездка трамваем.</p></div></div>
+            <div class="schedule-row"><time>09:30</time><span class="schedule-dot"></span><div><b>Королевский замок Вавель</b><p>Основная экспозиция и внутренний двор; билет лучше купить заранее.</p></div></div>
+            <div class="schedule-row"><time>12:00</time><span class="schedule-dot"></span><div><b>Кафедральный собор и панорама холма</b><p>Без спуска в пещеру дракона: зимой она закрыта.</p></div></div>
+            <div class="schedule-row"><time>13:00</time><span class="schedule-dot"></span><div><b>Обед на улице Гродской</b><p>Польская кухня и обязательная пауза в тепле.</p></div></div>
+            <div class="schedule-row"><time>14:30</time><span class="schedule-dot"></span><div><b>Канонича, Гродская и Планты</b><p>Самые атмосферные улицы по пути к площади.</p></div></div>
+            <div class="schedule-row"><time>16:30</time><span class="schedule-dot"></span><div><b>Рождественская ярмарка</b><p>Главная площадь после включения огней, Суконные ряды и Мариацкий костёл.</p></div></div>
+            <div class="schedule-row"><time>19:30</time><span class="schedule-dot"></span><div><b>Ужин в Старом городе</b><p>Возвращение в гостиницу около 21:30.</p></div></div>
+          </div>
+        </article>
+
+        <article class="plan-day">
+          <header class="plan-day-head"><strong>День 03</strong><b>19 декабря</b><span>Соляная шахта Величка</span></header>
+          <div class="schedule">
+            <div class="schedule-row"><time>07:30</time><span class="schedule-dot"></span><div><b>Завтрак</b><p>Удобная обувь и одежда слоями: под землёй около 14–16 °C.</p></div></div>
+            <div class="schedule-row"><time>08:30</time><span class="schedule-dot"></span><div><b>Выезд в Величку</b><p>Поезд до станции Wieliczka Rynek-Kopalnia.</p></div></div>
+            <div class="schedule-row"><time>09:40</time><span class="schedule-dot"></span><div><b>Прибытие и регистрация</b><p>Подойти заранее к выбранной языковой группе.</p></div></div>
+            <div class="schedule-row"><time>10:00</time><span class="schedule-dot"></span><div><b>Туристический маршрут шахты</b><p>Экскурсия длится примерно 2–3 часа; около 800 ступеней.</p></div></div>
+            <div class="schedule-row"><time>13:00</time><span class="schedule-dot"></span><div><b>Обед в Величке</b><p>Отдых после подземного маршрута.</p></div></div>
+            <div class="schedule-row"><time>14:30</time><span class="schedule-dot"></span><div><b>Возвращение в Краков</b><p>Ориентировочно к 16:00.</p></div></div>
+            <div class="schedule-row"><time>16:00</time><span class="schedule-dot"></span><div><b>Отдых в гостинице</b><p>Свободное время без обязательной программы.</p></div></div>
+            <div class="schedule-row"><time>18:30</time><span class="schedule-dot"></span><div><b>Вечер Казимежа</b><p>Улица Широка, площадь Новы и ужин.</p></div></div>
+          </div>
+        </article>
+
+        <article class="plan-day">
+          <header class="plan-day-head"><strong>День 04</strong><b>20 декабря</b><span>Подгуже и история Кракова</span></header>
+          <div class="schedule">
+            <div class="schedule-row"><time>08:30</time><span class="schedule-dot"></span><div><b>Завтрак</b><p>Сегодня почти всё находится рядом с гостиницей.</p></div></div>
+            <div class="schedule-row"><time>09:30</time><span class="schedule-dot"></span><div><b>Площадь Героев гетто</b><p>Начало исторического маршрута по Подгуже.</p></div></div>
+            <div class="schedule-row"><time>10:00</time><span class="schedule-dot"></span><div><b>Аптека «Под орлом»</b><p>Небольшой музей на площади; около 45–60 минут.</p></div></div>
+            <div class="schedule-row"><time>11:30</time><span class="schedule-dot"></span><div><b>Фабрика Оскара Шиндлера</b><p>На основную экспозицию заложить 2 часа; билет бронировать заранее.</p></div></div>
+            <div class="schedule-row"><time>14:00</time><span class="schedule-dot"></span><div><b>Обед в Заблоце</b><p>После насыщенной исторической части — обязательный отдых.</p></div></div>
+            <div class="schedule-row"><time>15:30</time><span class="schedule-dot"></span><div><b>Мост Бернатка и Казимеж</b><p>Пешком через Вислу к старому еврейскому кварталу.</p></div></div>
+            <div class="schedule-row"><time>17:00</time><span class="schedule-dot"></span><div><b>Кофе и свободная прогулка</b><p>Никаких новых билетов — только город и настроение.</p></div></div>
+            <div class="schedule-row"><time>19:00</time><span class="schedule-dot"></span><div><b>Ужин в Казимеже</b><p>Возвращение в гостиницу пешком.</p></div></div>
+          </div>
+        </article>
+
+        <article class="plan-day">
+          <header class="plan-day-head"><strong>День 05</strong><b>21 декабря</b><span>Последний день и ночной вылет</span></header>
+          <div class="schedule">
+            <div class="schedule-row"><time>08:30</time><span class="schedule-dot"></span><div><b>Завтрак и сборы</b><p>Проверить документы и зарядить телефон.</p></div></div>
+            <div class="schedule-row"><time>10:30</time><span class="schedule-dot"></span><div><b>Выезд из гостиницы</b><p>Отвезти багаж в камеру хранения у Kraków Główny.</p></div></div>
+            <div class="schedule-row"><time>11:30</time><span class="schedule-dot"></span><div><b>Подземелья Главного рынка</b><p>Удобный вариант на понедельник; билет желательно забронировать.</p></div></div>
+            <div class="schedule-row"><time>13:30</time><span class="schedule-dot"></span><div><b>Обед</b><p>Последний полноценный польский обед в центре.</p></div></div>
+            <div class="schedule-row"><time>15:00</time><span class="schedule-dot"></span><div><b>Сувениры и свободное время</b><p>Главная площадь, Суконные ряды и любимые места без спешки.</p></div></div>
+            <div class="schedule-row"><time>17:30</time><span class="schedule-dot"></span><div><b>Ранний ужин</b><p>После него — короткая вечерняя прогулка.</p></div></div>
+            <div class="schedule-row"><time>19:30</time><span class="schedule-dot"></span><div><b>Забрать багаж</b><p>Перейти на железнодорожную платформу.</p></div></div>
+            <div class="schedule-row"><time>20:10</time><span class="schedule-dot"></span><div><b>Поезд в аэропорт</b><p>Прибытие примерно в 20:30–20:40, с хорошим запасом до рейса.</p></div></div>
+            <div class="schedule-row"><time>23:55</time><span class="schedule-dot"></span><div><b>Вылет в Тель-Авив</b><p>Прилёт 22 декабря в 04:25.</p></div></div>
+          </div>
+        </article>
+      </div>
+      <p class="plan-note">Время экскурсий и зимние часы работы нужно подтвердить ближе к поездке. Для Вавеля, Велички, фабрики Шиндлера и Подземелий рынка билеты лучше покупать заранее.</p>
+    </section>
+
+    <section class="section" aria-labelledby="next-title">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Следующий этап</div>
+          <h2 id="next-title">Сайт будет расти вместе с планом</h2>
+        </div>
+      </div>
+      <div class="coming">
+        <article class="coming-card"><h3>Практический помощник</h3><p>Добавим билеты, трансфер, карту, погоду, расходы и нужные адреса.</p><div class="chips"><span class="chip">Перелёт</span><span class="chip">Транспорт</span><span class="chip">Карта</span><span class="chip">Бюджет</span></div></article>
+        <article class="coming-card"><h3>Личная история</h3><p>Фотографии, небольшие послания и тёплые детали превратят путеводитель в подарок.</p><div class="chips"><span class="chip">Фото</span><span class="chip">Сюрпризы</span><span class="chip">Любимые места</span><span class="chip">Для Гали</span></div></article>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="heart">♥</div>
+      <h2>Краков уже готовит огни. Осталось только приехать.</h2>
+      <p>Персональный путеводитель для Гали · декабрь 2026</p>
+      <div class="fineprint">Первый эскиз · гостиница и программа пока не забронированы</div>
+    </footer>
+  </main>
+
+</body>
+</html>
